@@ -1,9 +1,9 @@
 # GISS 366 Lab 05
-[update your description here] 
+[I did a mix of places I have been to and places I would like to go. I like to travel based on whimsy and weird!] 
 
 ## Web Map Gallery
 
-Gallery Link: [insert your github pages link]
+Gallery Link: [https://starc24.github.io/giss366-lab05/]
 
 ---
 
