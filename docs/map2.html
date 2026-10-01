@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Zhangjiajie National Forest Park</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://unpkg.com/maplibre-gl@^6.10.0/dist/maplibre-gl.css" />
+    <script src="https://cdn.jsdelivr.net/npm/@watergis/maplibre-gl-terradraw@1.0.1/dist/maplibre-gl-terradraw.umd.js"></script>
+<link
+    rel="stylesheet"
+    href="https://cdn.jsdelivr.net/npm/@watergis/maplibre-gl-terradraw@1.0.1/dist/maplibre-gl-terradraw.css"
+/>
+    <style>
+        body { margin: 0; }
+        #map { position: absolute; top: 0; right: 0; bottom: 0; left: 0; }
+    </style>
+</head>
+<body>
+    <div id="map"></div>
+
+    <script type="module">
+        import * as maplibregl from 'https://unpkg.com/maplibre-gl@^6.10.0/dist/maplibre-gl.mjs';
+
+        const map = new maplibregl.Map({
+            container: 'map',
+            style: 'https://tiles.openfreemap.org/styles/liberty',
+            center: [110.44, 29.35],   // [lng, lat] -- note the order, opposite of Leaflet's [lat, lng]!
+            zoom: 7,                                                                                                                                                                                                                                                                                                                                                                                                                   
+            pitch: 0,
+            bearing: 0
+        });
+        window.map = map;   // exposes map to the browser console for debugging
+    
+    map.on('load', function () {
+        map.addControl(new maplibregl.NavigationControl(), 'top-left');
+        map.addControl(new maplibregl.ScaleControl(), 'bottom-left');
+        map.addControl(new maplibregl.FullscreenControl(), 'top-right');
+        });
+
+        const draw = new MaplibreTerradrawControl.MaplibreTerradrawControl({
+        modes: [
+            // 'render', comment this to always show drawing tool
+            'point',
+            'linestring',
+            'polygon',
+            'sensor',
+            'select',
+            'delete-selection',
+            'delete',
+            'download'
+        ],
+        open: true,
+    });
+    map.addControl(draw, 'top-left');
+    </script>
+     /* CUSTOMIZATIONS
+   1. Centered on China 
+   2. Changed basemap style 
+   3. Set zoom to 16
+   4. Added tools and sensor 
+*/
+</body>
+</html>

@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Iceland Experiences</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://unpkg.com/maplibre-gl@^6.10.0/dist/maplibre-gl.css" />
+    <style>
+        body { margin: 0; }
+        #map { position: absolute; top: 0; right: 0; bottom: 0; left: 0; }
+    </style>
+</head>
+<body>
+    <div id="map"></div>
+
+    <script type="module">
+        import * as maplibregl from 'https://unpkg.com/maplibre-gl@^6.10.0/dist/maplibre-gl.mjs';
+
+        const map = new maplibregl.Map({
+            container: 'map',
+            style: 'https://tiles.openfreemap.org/styles/positron',
+            center: [-18.450863, 64.825342,],   // [lng, lat] -- note the order, opposite of Leaflet's [lat, lng]!
+            zoom: 5,
+            pitch: 0,
+            bearing: 0
+        });
+        window.map = map;   // exposes map to the browser console for debugging
+
+    // Add your points as GeoJSON
+map.addSource('places', {
+    type: 'geojson',
+    data: {
+        type: 'FeatureCollection',
+        features: [
+            {
+                type: 'Feature',
+                properties: {
+                    name: 'Point 1',
+                    rating: 1
+                },
+                geometry: {
+                    type: 'Point',
+                    coordinates: [-13.7533, 65.5422]
+                }
+            },
+            {
+                type: 'Feature',
+                properties: {
+                    name: 'Point 2',
+                    rating: 2
+                },
+                geometry: {
+                    type: 'Point',
+                    coordinates: [-19.9886, 63.6156]
+                }
+            },
+            {
+                type: 'Feature',
+                properties: {
+                    name: 'Point 3',
+                    rating: 3
+                },
+                geometry: {
+                    type: 'Point',
+                    coordinates: [-21.9246, 64.1453]
+                }
+            },
+            {
+                type: 'Feature',
+                properties: {
+                    name: 'Point 4',
+                    rating: 4
+                },
+                geometry: {
+                    type: 'Point',
+                    coordinates: [-17.33833, 66.0415]
+                }
+            }
+        ]
+    }
+});
+
+// Add a layer showing the points
+map.addLayer({
+    id: 'places',
+    type: 'circle',
+    source: 'places',
+    paint: {
+        'circle-radius': 8,
+        'circle-color': '#1978A5',
+        'circle-stroke-color': '#FFFFFF',
+        'circle-stroke-width': 2
+    }
+});
+
+// When a point is clicked, open a popup
+map.on('click', 'places', (e) => {
+
+    const coordinates = e.features[0].geometry.coordinates.slice();
+    const name = e.features[0].properties.name;
+
+    // Keep popup attached to the correct copy of the point
+    while (Math.abs(e.lngLat.lng - coordinates[0]) > 180) {
+        coordinates[0] += e.lngLat.lng > coordinates[0] ? 360 : -360;
+    }
+
+    new maplibregl.Popup()
+        .setLngLat(coordinates)
+        .setHTML(`<strong>${name}</strong>`) // This is where the pop-up content is identified.
+        .addTo(map);
+});
+
+// Change cursor to pointer when hovering over a point
+map.on('mouseenter', 'places', () => {
+    map.getCanvas().style.cursor = 'pointer';
+});
+
+// Change cursor back when leaving a point
+map.on('mouseleave', 'places', () => {
+    map.getCanvas().style.cursor = '';
+});
+    </script>
+</body>
+</html>

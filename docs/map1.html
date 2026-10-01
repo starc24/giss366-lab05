@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Chaing Rai</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://unpkg.com/maplibre-gl@^6.10.0/dist/maplibre-gl.css" />
+    <style>
+        body { margin: 0; }
+        #map { position: absolute; top: 0; right: 0; bottom: 0; left: 0; }
+    </style>
+</head>
+<body>
+    <div id="map"></div>
+
+    <script type="module">
+        import * as maplibregl from 'https://unpkg.com/maplibre-gl@^6.10.0/dist/maplibre-gl.mjs';
+
+        const map = new maplibregl.Map({
+            container: 'map',
+            style: 'https://tiles.openfreemap.org/styles/bright',
+            center: [99.7633, 19.8247],   // [lng, lat] -- note the order, opposite of Leaflet's [lat, lng]!
+            zoom: 16,
+            pitch: 55,
+            bearing: 69
+        });
+ 
+        window.map = map;   // exposes map to the browser console for debugging
+
+    </script>
+    /* CUSTOMIZATIONS
+   1. Centered on Wat Rong Khun, Chaing Rai
+   2. Changed basemap style 
+   3. Set zoom to 16
+*/
+
+</body>
+</html>
